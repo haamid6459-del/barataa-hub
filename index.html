@@ -3,92 +3,74 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>Barataa Hub</title>
 
 <style>
 *{
   box-sizing:border-box;
-  margin:0;
-  padding:0;
   font-family:Arial,sans-serif;
 }
 
 body{
-  background:#f3f6f9;
-  color:#222;
+  margin:0;
+  background:#f4f7f9;
+  color:#17202a;
 }
 
 header{
   background:#075e54;
   color:white;
-  padding:18px;
   text-align:center;
+  padding:22px 15px;
+}
+
+header h1{
+  margin:5px 0;
 }
 
 .container{
-  max-width:1000px;
+  max-width:1100px;
   margin:auto;
-  padding:20px;
+  padding:15px;
 }
 
 .card{
   background:white;
   padding:20px;
   margin:15px 0;
-  border-radius:14px;
-  box-shadow:0 3px 12px rgba(0,0,0,.08);
+  border-radius:15px;
+  box-shadow:0 4px 15px #0001;
 }
 
-input,select,button{
+input,select,textarea{
   width:100%;
   padding:12px;
-  margin:7px 0;
-  border-radius:8px;
+  margin:6px 0;
   border:1px solid #ccc;
+  border-radius:8px;
+  font-size:15px;
+}
+
+textarea{
+  min-height:100px;
 }
 
 button{
+  border:0;
+  padding:12px 16px;
+  border-radius:8px;
   background:#075e54;
   color:white;
-  border:none;
   cursor:pointer;
-  font-weight:bold;
+  margin:5px 3px;
 }
 
 button:hover{
-  background:#064c44;
+  opacity:.9;
 }
 
-.hidden{
-  display:none;
-}
-
-.grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
-  gap:15px;
-}
-
-.stat{
-  background:#e8f5f2;
-  padding:18px;
-  border-radius:12px;
-  text-align:center;
-}
-
-.stat h2{
-  color:#075e54;
-}
-
-.student-link{
-  background:#f5f5f5;
-  padding:10px;
-  border-radius:8px;
-  margin:5px 0;
-  word-break:break-all;
-}
-
-.danger{
+.red{
   background:#c62828;
 }
 
@@ -96,8 +78,60 @@ button:hover{
   background:#1565c0;
 }
 
-.logout{
-  background:#444;
+.green{
+  background:#2e7d32;
+}
+
+.gray{
+  background:#546e7a;
+}
+
+.hidden{
+  display:none!important;
+}
+
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:15px;
+}
+
+.stat{
+  background:#e0f2f1;
+  padding:20px;
+  text-align:center;
+  border-radius:12px;
+}
+
+.stat h2{
+  font-size:32px;
+  margin:5px;
+}
+
+.nav{
+  display:flex;
+  flex-wrap:wrap;
+  gap:5px;
+}
+
+.student{
+  border:1px solid #ddd;
+  border-radius:12px;
+  padding:15px;
+  margin:10px 0;
+}
+
+.student-photo{
+  width:110px;
+  height:110px;
+  border-radius:50%;
+  object-fit:cover;
+  border:3px solid #075e54;
+}
+
+.profile-photo{
+  text-align:center;
+  margin-bottom:20px;
 }
 
 table{
@@ -106,21 +140,41 @@ table{
   margin-top:10px;
 }
 
-th,td{
-  border:1px solid #ddd;
-  padding:9px;
+td,th{
+  padding:10px;
+  border-bottom:1px solid #ddd;
   text-align:left;
 }
 
-th{
-  background:#075e54;
-  color:white;
-}
-
-#message{
-  margin:10px 0;
+.link{
+  background:#f1f8e9;
   padding:10px;
   border-radius:8px;
+  word-break:break-all;
+}
+
+.message{
+  padding:10px;
+  margin:10px 0;
+  border-radius:8px;
+}
+
+.success{
+  background:#dcedc8;
+}
+
+.error{
+  background:#ffcdd2;
+}
+
+@media(max-width:600px){
+  .nav button{
+    width:100%;
+  }
+
+  table{
+    font-size:13px;
+  }
 }
 </style>
 </head>
@@ -128,70 +182,72 @@ th{
 <body>
 
 <header>
-  <h1>📚 BARATAA HUB</h1>
-  <p>Sirna Odeeffannoo Barattootaa</p>
+  <div style="font-size:45px">🎓</div>
+  <h1>Barataa Hub</h1>
+  <p>Sirna Bulchiinsa Barattootaa</p>
 </header>
 
 <div class="container">
 
-<!-- HOME -->
-<section id="home">
+<!-- LOGIN -->
+<div id="loginPage" class="card">
 
-<div class="card">
-<h2>👨‍🎓 Barataa</h2>
-<p>Student ID fi password kee galchi.</p>
+<h2>🔐 Seensa</h2>
 
-<input id="studentId" placeholder="Student ID fakkeenya ST001">
-<input id="studentPassword" type="password" placeholder="Password">
+<select id="loginType">
+<option value="admin">Admin</option>
+<option value="student">Barataa</option>
+</select>
 
-<button onclick="studentLogin()">Student Login</button>
+<input id="loginEmail"
+       type="email"
+       placeholder="Email">
+
+<input id="loginPassword"
+       type="password"
+       placeholder="Password">
+
+<button onclick="login()">
+Seeni
+</button>
+
+<div id="loginMessage"></div>
+
 </div>
 
+
+<!-- ADMIN -->
+<div id="adminPage" class="hidden">
+
 <div class="card">
-<h2>🔐 Admin</h2>
 
-<input id="adminUser" placeholder="Username">
-<input id="adminPassword" type="password" placeholder="Password">
+<div class="nav">
 
-<button onclick="adminLogin()">Admin Login</button>
+<button onclick="dashboard()">
+🏠 Dashboard
+</button>
+
+<button onclick="newStudent()">
+➕ Barataa Haaraa
+</button>
+
+<button onclick="studentsPage()">
+👨‍🎓 Barattoota
+</button>
+
+<button class="gray" onclick="logout()">
+🚪 Ba'i
+</button>
+
 </div>
 
-<div id="message"></div>
-
-</section>
-
-
-<!-- STUDENT PAGE -->
-<section id="studentPage" class="hidden">
-
-<div class="card">
-<h2>👤 Odeeffannoo Barataa</h2>
-
-<div id="studentInfo"></div>
-
-<button class="logout" onclick="logout()">Logout</button>
 </div>
 
-<div class="card">
-<h2>📊 Bu'aa Barataa</h2>
 
-<div id="studentResults"></div>
-</div>
+<!-- ADMIN DASHBOARD -->
+<div id="dashboardPage" class="card">
 
-<div class="card">
-<h2>📅 Attendance</h2>
-
-<div id="studentAttendance"></div>
-</div>
-
-</section>
-
-
-<!-- ADMIN PAGE -->
-<section id="adminPage" class="hidden">
-
-<div class="card">
-<h2>📊 Admin Dashboard</h2>
+<h2>📊 Dashboard</h2>
 
 <div class="grid">
 
@@ -201,686 +257,1328 @@ th{
 </div>
 
 <div class="stat">
-<h2 id="totalExams">0</h2>
+<h2>📝</h2>
 <p>Qormaata</p>
 </div>
 
 <div class="stat">
-<h2 id="totalAttendance">0</h2>
+<h2>📅</h2>
 <p>Attendance</p>
 </div>
 
-</div>
+<div class="stat">
+<h2>🔗</h2>
+<p>Student Links</p>
 </div>
 
+</div>
+
+</div>
+
+
+<!-- ADD / EDIT -->
+<div id="formPage" class="card hidden">
+
+<h2 id="formTitle">
+➕ Barataa Haaraa
+</h2>
+
+<input id="fId"
+placeholder="Student ID *">
+
+<input id="fName"
+placeholder="Maqaa Guutuu *">
+
+<select id="fGender">
+<option value="">Saala</option>
+<option value="Dhiira">Dhiira</option>
+<option value="Dubartii">Dubartii</option>
+</select>
+
+<label>Guyyaa Dhalootaa</label>
+
+<input id="fBirth"
+type="date">
+
+<input id="fAge"
+type="number"
+placeholder="Umurii">
+
+<input id="fSchool"
+placeholder="Mana Barumsaa">
+
+<input id="fClass"
+placeholder="Kutaa">
+
+<input id="fDepartment"
+placeholder="Department / Stream">
+
+<input id="fPhone"
+placeholder="Bilbila">
+
+<input id="fEmail"
+type="email"
+placeholder="Email">
+
+<input id="fAddress"
+placeholder="Teessoo">
+
+<input id="fFather"
+placeholder="Maqaa Abbaa">
+
+<input id="fMother"
+placeholder="Maqaa Haadha">
+
+<input id="fFamilyPhone"
+placeholder="Bilbila Maatii">
+
+<input id="fTeacher"
+placeholder="Maqaa Barsiisaa">
+
+<input id="fPhoto"
+placeholder="Linkii Suuraa">
+
+<textarea id="fNotes"
+placeholder="Notes / Yaada"></textarea>
+
+<input id="fUid"
+placeholder="Firebase UID Barataa">
+
+<button class="green"
+onclick="saveStudent()">
+💾 Kuusi
+</button>
+
+<button class="gray"
+onclick="dashboard()">
+← Deebi'i
+</button>
+
+<div id="formMessage"></div>
+
+</div>
+
+
+<!-- STUDENTS -->
+<div id="studentsPageBox" class="card hidden">
+
+<h2>👨‍🎓 Barattoota</h2>
+
+<input
+id="search"
+placeholder="🔎 Maqaa ykn Student ID barbaadi..."
+oninput="searchStudents()">
+
+<div id="studentsList"></div>
+
+</div>
+
+
+<!-- STUDENT DETAIL ADMIN -->
+<div id="detailPage" class="card hidden"></div>
+
+</div>
+
+
+<!-- STUDENT PAGE -->
+<div id="studentPage" class="hidden">
 
 <div class="card">
 
-<h2>➕ Barataa Haaraa Galchi</h2>
+<div class="nav">
 
-<input id="newId" placeholder="Student ID">
-<input id="newName" placeholder="Maqaa Guutuu">
-<input id="newGender" placeholder="Saala">
-<input id="newAge" type="number" placeholder="Umurii">
-<input id="newClass" placeholder="Kutaa">
-<input id="newSchool" placeholder="Mana Barumsaa">
-<input id="newPhone" placeholder="Lakkoofsa Bilbilaa">
-<input id="newPassword" placeholder="Password">
+<button onclick="studentProfile()">
+👤 Profile
+</button>
 
-<button onclick="addStudent()">Barataa Galchi</button>
+<button onclick="studentResults()">
+📝 Result
+</button>
+
+<button onclick="studentAttendance()">
+📅 Attendance
+</button>
+
+<button class="gray" onclick="logout()">
+🚪 Ba'i
+</button>
+
+</div>
+
+</div>
+
+<div id="studentContent" class="card"></div>
+
+</div>
 
 </div>
 
 
-<div class="card">
+<script type="module">
 
-<h2>🔍 Barataa Barbaadi</h2>
+import { initializeApp }
+from "https://www.gstatic.com/firebasejs/12.19.0/firebase-app.js";
 
-<input id="searchBox"
-       placeholder="Maqaa ykn Student ID..."
-       oninput="searchStudents()">
-
-<div id="studentList"></div>
-
-</div>
-
-
-<div class="card">
-
-<h2>📋 Barattoota Hunda</h2>
-
-<div id="allStudents"></div>
-
-</div>
-
-<button class="logout" onclick="logout()">Logout</button>
-
-</section>
-
-</div>
-
-
-<script>
-
-/* =========================
-   DATA
-========================= */
-
-let students =
-JSON.parse(localStorage.getItem("students")) || [
-
-{
- id:"ST001",
- name:"Abdulhamid",
- gender:"Dhiira",
- age:20,
- className:"Grade 10",
- school:"Mana Barumsaa Fakkeenyaa",
- phone:"0912345678",
- password:"1234",
-
- results:[
-  {subject:"Islamic Studies",score:85},
-  {subject:"Arabic",score:90},
-  {subject:"English",score:78}
- ],
-
- attendance:{
-  present:25,
-  absent:2
- }
-},
-
-{
- id:"ST002",
- name:"Ahmed",
- gender:"Dhiira",
- age:19,
- className:"Grade 10",
- school:"Mana Barumsaa Fakkeenyaa",
- phone:"0923456789",
- password:"1234",
-
- results:[
-  {subject:"Islamic Studies",score:80},
-  {subject:"Arabic",score:75},
-  {subject:"English",score:88}
- ],
-
- attendance:{
-  present:23,
-  absent:4
- }
+import {
+getAuth,
+signInWithEmailAndPassword,
+signOut
 }
+from "https://www.gstatic.com/firebasejs/12.19.0/firebase-auth.js";
 
-];
-
-
-/* =========================
-   SAVE
-========================= */
-
-function saveData(){
-
-localStorage.setItem(
-"students",
-JSON.stringify(students)
-);
-
+import {
+getFirestore,
+collection,
+doc,
+getDocs,
+getDoc,
+setDoc,
+updateDoc,
+deleteDoc
 }
+from "https://www.gstatic.com/firebasejs/12.19.0/firebase-firestore.js";
 
 
-/* =========================
-   MESSAGE
-========================= */
+/* ==================================================
+   FIREBASE CONFIG
+   ================================================== */
 
-function showMessage(text){
+const firebaseConfig = {
 
-document.getElementById("message").innerHTML =
-text;
+apiKey:"YOUR_API_KEY",
 
-}
+authDomain:"YOUR_PROJECT.firebaseapp.com",
+
+projectId:"YOUR_PROJECT_ID",
+
+storageBucket:"YOUR_PROJECT.firebasestorage.app",
+
+messagingSenderId:"YOUR_MESSAGING_SENDER_ID",
+
+appId:"YOUR_APP_ID"
+
+};
 
 
-/* =========================
-   STUDENT LOGIN
-========================= */
+const app =
+initializeApp(firebaseConfig);
 
-function studentLogin(){
+const auth =
+getAuth(app);
 
-let id =
-document.getElementById("studentId").value.trim();
+const db =
+getFirestore(app);
 
-let password =
-document.getElementById("studentPassword").value;
 
-let student =
-students.find(
-s => s.id.toLowerCase() === id.toLowerCase()
-);
+/* ==================================================
+   VARIABLES
+   ================================================== */
 
-if(!student){
+let students=[];
 
-showMessage("❌ Student ID hin argamne.");
+let editingId=null;
+
+let currentStudent=null;
+
+
+/* ==================================================
+   LOGIN
+   ================================================== */
+
+window.login=async function(){
+
+const email=
+document.getElementById("loginEmail").value.trim();
+
+const password=
+document.getElementById("loginPassword").value;
+
+const type=
+document.getElementById("loginType").value;
+
+const msg=
+document.getElementById("loginMessage");
+
+if(!email || !password){
+
+msg.innerHTML=
+"<div class='message error'>Email fi password guuti.</div>";
 
 return;
 }
 
-if(student.password !== password){
+try{
 
-showMessage("❌ Password sirrii miti.");
+const result=
+await signInWithEmailAndPassword(
+auth,
+email,
+password
+);
 
-return;
-}
+const user=result.user;
 
-document.getElementById("home")
-.classList.add("hidden");
+if(type==="admin"){
 
-document.getElementById("studentPage")
-.classList.remove("hidden");
-
-showStudent(student);
-
-}
-
-
-/* =========================
-   SHOW STUDENT
-========================= */
-
-function showStudent(student){
-
-document.getElementById("studentInfo").innerHTML = `
-
-<p><b>Student ID:</b> ${student.id}</p>
-<p><b>Maqaa:</b> ${student.name}</p>
-<p><b>Saala:</b> ${student.gender}</p>
-<p><b>Umurii:</b> ${student.age}</p>
-<p><b>Kutaa:</b> ${student.className}</p>
-<p><b>Mana Barumsaa:</b> ${student.school}</p>
-<p><b>Bilbila:</b> ${student.phone}</p>
-
-<hr>
-
-<p><b>🔗 Linkii kee:</b></p>
-
-<div class="student-link">
-${location.href.split("#")[0]}#student=${student.id}
-</div>
-
-`;
-
-showResults(student);
-
-showAttendance(student);
-
-}
-
-
-/* =========================
-   RESULTS
-========================= */
-
-function showResults(student){
-
-let html = `
-<table>
-<tr>
-<th>Barnoota</th>
-<th>Qabxii</th>
-</tr>
-`;
-
-let total = 0;
-
-student.results.forEach(r=>{
-
-total += Number(r.score);
-
-html += `
-<tr>
-<td>${r.subject}</td>
-<td>${r.score}</td>
-</tr>
-`;
-
-});
-
-let average =
-student.results.length
-? (total/student.results.length).toFixed(2)
-:0;
-
-html += `
-
-<tr>
-<th>Average</th>
-<th>${average}%</th>
-</tr>
-
-</table>
-`;
-
-document.getElementById("studentResults")
-.innerHTML = html;
-
-}
-
-
-/* =========================
-   ATTENDANCE
-========================= */
-
-function showAttendance(student){
-
-let a = student.attendance;
-
-let total = a.present + a.absent;
-
-let percentage =
-total
-? ((a.present/total)*100).toFixed(1)
-:0;
-
-document.getElementById(
-"studentAttendance"
-).innerHTML = `
-
-<p>✅ Present: ${a.present}</p>
-
-<p>❌ Absent: ${a.absent}</p>
-
-<p>📊 Attendance: ${percentage}%</p>
-
-`;
-
-}
-
-
-/* =========================
-   ADMIN LOGIN
-========================= */
-
-function adminLogin(){
-
-let username =
-document.getElementById("adminUser").value;
-
-let password =
-document.getElementById("adminPassword").value;
-
-
-/* DEFAULT ADMIN */
-
-if(username === "admin" && password === "admin123"){
-
-document.getElementById("home")
-.classList.add("hidden");
-
-document.getElementById("adminPage")
-.classList.remove("hidden");
-
-updateDashboard();
-
-displayStudents();
+openAdmin();
 
 }else{
 
-showMessage(
-"❌ Username ykn Password sirrii miti."
-);
+await openStudent(user.uid);
 
 }
 
-}
+}catch(error){
 
+console.log(error);
 
-/* =========================
-   ADD STUDENT
-========================= */
+msg.innerHTML=
+"<div class='message error'>Email ykn password sirrii miti.</div>";
 
-function addStudent(){
-
-let id =
-document.getElementById("newId").value.trim();
-
-let name =
-document.getElementById("newName").value.trim();
-
-let gender =
-document.getElementById("newGender").value;
-
-let age =
-document.getElementById("newAge").value;
-
-let className =
-document.getElementById("newClass").value;
-
-let school =
-document.getElementById("newSchool").value;
-
-let phone =
-document.getElementById("newPhone").value;
-
-let password =
-document.getElementById("newPassword").value;
-
-
-if(!id || !name || !password){
-
-alert(
-"Student ID, Maqaa fi Password dirqama."
-);
-
-return;
-}
-
-
-if(students.some(s=>s.id===id)){
-
-alert("Student ID kun duraan jira.");
-
-return;
-
-}
-
-
-let student = {
-
-id:id,
-name:name,
-gender:gender,
-age:age,
-className:className,
-school:school,
-phone:phone,
-password:password,
-
-results:[],
-
-attendance:{
-present:0,
-absent:0
 }
 
 };
 
 
-students.push(student);
+/* ==================================================
+   ADMIN
+   ================================================== */
 
-saveData();
+function openAdmin(){
 
-alert(
-"✅ Barataan milkaa'inaan galmaa'e."
-);
+document
+.getElementById("loginPage")
+.classList.add("hidden");
 
-clearForm();
+document
+.getElementById("studentPage")
+.classList.add("hidden");
 
-updateDashboard();
+document
+.getElementById("adminPage")
+.classList.remove("hidden");
 
-displayStudents();
+dashboard();
+
+loadStudents();
 
 }
 
 
-/* =========================
-   CLEAR FORM
-========================= */
+window.dashboard=function(){
+
+hideAdminPages();
+
+document
+.getElementById("dashboardPage")
+.classList.remove("hidden");
+
+};
+
+
+function hideAdminPages(){
+
+document
+.getElementById("dashboardPage")
+.classList.add("hidden");
+
+document
+.getElementById("formPage")
+.classList.add("hidden");
+
+document
+.getElementById("studentsPageBox")
+.classList.add("hidden");
+
+document
+.getElementById("detailPage")
+.classList.add("hidden");
+
+}
+
+
+/* ==================================================
+   NEW STUDENT
+   ================================================== */
+
+window.newStudent=function(){
+
+hideAdminPages();
+
+editingId=null;
+
+document
+.getElementById("formPage")
+.classList.remove("hidden");
+
+document
+.getElementById("formTitle")
+.innerText=
+"➕ Barataa Haaraa";
+
+clearForm();
+
+};
+
+
+/* ==================================================
+   LOAD STUDENTS
+   ================================================== */
+
+async function loadStudents(){
+
+try{
+
+const snap=
+await getDocs(
+collection(db,"students")
+);
+
+students=[];
+
+snap.forEach(item=>{
+
+students.push({
+id:item.id,
+...item.data()
+});
+
+});
+
+document
+.getElementById("totalStudents")
+.innerText=
+students.length;
+
+renderStudents(students);
+
+}catch(error){
+
+console.log(error);
+
+}
+
+}
+
+
+/* ==================================================
+   STUDENTS PAGE
+   ================================================== */
+
+window.studentsPage=function(){
+
+hideAdminPages();
+
+document
+.getElementById("studentsPageBox")
+.classList.remove("hidden");
+
+renderStudents(students);
+
+};
+
+
+/* ==================================================
+   RENDER
+   ================================================== */
+
+function renderStudents(list){
+
+const box=
+document.getElementById("studentsList");
+
+box.innerHTML="";
+
+if(list.length===0){
+
+box.innerHTML=
+"<p>Barataan hin jiru.</p>";
+
+return;
+
+}
+
+
+list.forEach(s=>{
+
+const link=
+location.origin+
+location.pathname+
+"#student="+
+encodeURIComponent(s.id);
+
+
+const div=
+document.createElement("div");
+
+div.className="student";
+
+
+div.innerHTML=`
+
+<div class="profile-photo">
+
+${
+s.photo
+?
+`<img class="student-photo"
+src="${escapeHTML(s.photo)}">`
+:
+`<div style="font-size:70px">👤</div>`
+}
+
+</div>
+
+<h3>${escapeHTML(s.name||"")}</h3>
+
+<p>
+<b>Student ID:</b>
+${escapeHTML(s.id||"")}
+</p>
+
+<p>
+<b>Kutaa:</b>
+${escapeHTML(s.className||"")}
+</p>
+
+<p>
+<b>Mana Barumsaa:</b>
+${escapeHTML(s.school||"")}
+</p>
+
+<div class="link">
+
+<b>🔗 Linkii:</b><br>
+
+${escapeHTML(link)}
+
+</div>
+
+<button
+onclick="viewStudent('${encodeURIComponent(s.id)}')">
+👁️ Odeeffannoo Guutuu
+</button>
+
+<button
+class="blue"
+onclick="editStudent('${encodeURIComponent(s.id)}')">
+✏️ Sirreessi
+</button>
+
+<button
+class="red"
+onclick="deleteStudent('${encodeURIComponent(s.id)}')">
+🗑️ Haqi
+</button>
+
+<button
+onclick="copyLink('${encodeURIComponent(link)}')">
+📋 Link Copy
+</button>
+
+`;
+
+box.appendChild(div);
+
+});
+
+}
+
+
+/* ==================================================
+   SEARCH
+   ================================================== */
+
+window.searchStudents=function(){
+
+const value=
+document
+.getElementById("search")
+.value
+.toLowerCase();
+
+const result=
+students.filter(s=>
+
+String(s.name||"")
+.toLowerCase()
+.includes(value)
+
+||
+
+String(s.id||"")
+.toLowerCase()
+.includes(value)
+
+);
+
+renderStudents(result);
+
+};
+
+
+/* ==================================================
+   SAVE
+   ================================================== */
+
+window.saveStudent=async function(){
+
+const id=
+document.getElementById("fId")
+.value.trim();
+
+const name=
+document.getElementById("fName")
+.value.trim();
+
+
+if(!id || !name){
+
+showFormMessage(
+"Student ID fi maqaan dirqama.",
+true
+);
+
+return;
+
+}
+
+
+const data={
+
+studentId:id,
+
+name:name,
+
+gender:get("fGender"),
+
+birthDate:get("fBirth"),
+
+age:get("fAge"),
+
+school:get("fSchool"),
+
+className:get("fClass"),
+
+department:get("fDepartment"),
+
+phone:get("fPhone"),
+
+email:get("fEmail"),
+
+address:get("fAddress"),
+
+father:get("fFather"),
+
+mother:get("fMother"),
+
+familyPhone:get("fFamilyPhone"),
+
+teacher:get("fTeacher"),
+
+photo:get("fPhoto"),
+
+notes:get("fNotes"),
+
+uid:get("fUid"),
+
+updatedAt:new Date().toISOString()
+
+};
+
+
+try{
+
+await setDoc(
+doc(db,"students",id),
+data,
+{merge:true}
+);
+
+showFormMessage(
+"✅ Odeeffannoon milkaa'inaan kuufame.",
+false
+);
+
+editingId=null;
+
+await loadStudents();
+
+}catch(error){
+
+showFormMessage(
+error.message,
+true
+);
+
+}
+
+};
+
+
+/* ==================================================
+   VIEW FULL STUDENT
+   ================================================== */
+
+window.viewStudent=function(encoded){
+
+const id=
+decodeURIComponent(encoded);
+
+const s=
+students.find(x=>x.id===id);
+
+if(!s)return;
+
+hideAdminPages();
+
+const box=
+document.getElementById("detailPage");
+
+box.classList.remove("hidden");
+
+box.innerHTML=`
+
+<h2>👤 Odeeffannoo Barataa Guutuu</h2>
+
+<div class="profile-photo">
+
+${
+s.photo
+?
+`<img class="student-photo"
+src="${escapeHTML(s.photo)}">`
+:
+`<div style="font-size:80px">👤</div>`
+}
+
+<h2>${escapeHTML(s.name||"")}</h2>
+
+</div>
+
+<table>
+
+<tr>
+<th>Student ID</th>
+<td>${escapeHTML(s.id||"")}</td>
+</tr>
+
+<tr>
+<th>Maqaa</th>
+<td>${escapeHTML(s.name||"")}</td>
+</tr>
+
+<tr>
+<th>Saala</th>
+<td>${escapeHTML(s.gender||"")}</td>
+</tr>
+
+<tr>
+<th>Guyyaa Dhalootaa</th>
+<td>${escapeHTML(s.birthDate||"")}</td>
+</tr>
+
+<tr>
+<th>Umurii</th>
+<td>${escapeHTML(s.age||"")}</td>
+</tr>
+
+<tr>
+<th>Mana Barumsaa</th>
+<td>${escapeHTML(s.school||"")}</td>
+</tr>
+
+<tr>
+<th>Kutaa</th>
+<td>${escapeHTML(s.className||"")}</td>
+</tr>
+
+<tr>
+<th>Department</th>
+<td>${escapeHTML(s.department||"")}</td>
+</tr>
+
+<tr>
+<th>Bilbila</th>
+<td>${escapeHTML(s.phone||"")}</td>
+</tr>
+
+<tr>
+<th>Email</th>
+<td>${escapeHTML(s.email||"")}</td>
+</tr>
+
+<tr>
+<th>Teessoo</th>
+<td>${escapeHTML(s.address||"")}</td>
+</tr>
+
+<tr>
+<th>Maqaa Abbaa</th>
+<td>${escapeHTML(s.father||"")}</td>
+</tr>
+
+<tr>
+<th>Maqaa Haadhaa</th>
+<td>${escapeHTML(s.mother||"")}</td>
+</tr>
+
+<tr>
+<th>Bilbila Maatii</th>
+<td>${escapeHTML(s.familyPhone||"")}</td>
+</tr>
+
+<tr>
+<th>Barsiisaa</th>
+<td>${escapeHTML(s.teacher||"")}</td>
+</tr>
+
+<tr>
+<th>Notes</th>
+<td>${escapeHTML(s.notes||"")}</td>
+</tr>
+
+</table>
+
+
+<h2>📝 Result</h2>
+
+<div id="adminResults">
+
+${renderResults(s)}
+
+</div>
+
+
+<h2>📅 Attendance</h2>
+
+<div id="adminAttendance">
+
+${renderAttendance(s)}
+
+</div>
+
+
+<button
+class="blue"
+onclick="editStudent('${encodeURIComponent(s.id)}')">
+✏️ Odeeffannoo Sirreessi
+</button>
+
+<button
+class="gray"
+onclick="studentsPage()">
+← Deebi'i
+</button>
+
+`;
+
+};
+
+
+/* ==================================================
+   EDIT
+   ================================================== */
+
+window.editStudent=function(encoded){
+
+const id=
+decodeURIComponent(encoded);
+
+const s=
+students.find(x=>x.id===id);
+
+if(!s)return;
+
+hideAdminPages();
+
+document
+.getElementById("formPage")
+.classList.remove("hidden");
+
+document
+.getElementById("formTitle")
+.innerText=
+"✏️ Odeeffannoo Sirreessi";
+
+editingId=id;
+
+
+set("fId",s.id);
+
+set("fName",s.name);
+
+set("fGender",s.gender);
+
+set("fBirth",s.birthDate);
+
+set("fAge",s.age);
+
+set("fSchool",s.school);
+
+set("fClass",s.className);
+
+set("fDepartment",s.department);
+
+set("fPhone",s.phone);
+
+set("fEmail",s.email);
+
+set("fAddress",s.address);
+
+set("fFather",s.father);
+
+set("fMother",s.mother);
+
+set("fFamilyPhone",s.familyPhone);
+
+set("fTeacher",s.teacher);
+
+set("fPhoto",s.photo);
+
+set("fNotes",s.notes);
+
+set("fUid",s.uid);
+
+};
+
+
+/* ==================================================
+   DELETE
+   ================================================== */
+
+window.deleteStudent=async function(encoded){
+
+const id=
+decodeURIComponent(encoded);
+
+if(!confirm(
+"Barataa kana guutumaan guutuutti haquu?"
+))return;
+
+try{
+
+await deleteDoc(
+doc(db,"students",id)
+);
+
+await loadStudents();
+
+studentsPage();
+
+}catch(error){
+
+alert(error.message);
+
+}
+
+};
+
+
+/* ==================================================
+   RESULTS
+   ================================================== */
+
+function renderResults(s){
+
+const results=
+s.results||[];
+
+if(results.length===0){
+
+return "<p>Result hin jiru.</p>";
+
+}
+
+let html="<table>";
+
+html+=`
+<tr>
+<th>Subject</th>
+<th>Qabxii</th>
+</tr>
+`;
+
+results.forEach(r=>{
+
+html+=`
+<tr>
+<td>${escapeHTML(r.subject||"")}</td>
+<td>${escapeHTML(r.mark||"")}</td>
+</tr>
+`;
+
+});
+
+html+="</table>";
+
+return html;
+
+}
+
+
+function renderAttendance(s){
+
+const a=
+s.attendance||[];
+
+if(a.length===0){
+
+return "<p>Attendance hin jiru.</p>";
+
+}
+
+let html="<table>";
+
+html+=`
+<tr>
+<th>Guyyaa</th>
+<th>Haala</th>
+</tr>
+`;
+
+a.forEach(x=>{
+
+html+=`
+<tr>
+<td>${escapeHTML(x.date||"")}</td>
+<td>${escapeHTML(x.status||"")}</td>
+</tr>
+`;
+
+});
+
+html+="</table>";
+
+return html;
+
+}
+
+
+/* ==================================================
+   STUDENT LOGIN
+   ================================================== */
+
+async function openStudent(uid){
+
+try{
+
+const snap=
+await getDocs(
+collection(db,"students")
+);
+
+let found=null;
+
+snap.forEach(item=>{
+
+const data=item.data();
+
+if(data.uid===uid){
+
+found={
+id:item.id,
+...data
+};
+
+}
+
+});
+
+
+if(!found){
+
+alert(
+"Profile barataa hin argamne."
+);
+
+await signOut(auth);
+
+return;
+
+}
+
+currentStudent=found;
+
+document
+.getElementById("loginPage")
+.classList.add("hidden");
+
+document
+.getElementById("adminPage")
+.classList.add("hidden");
+
+document
+.getElementById("studentPage")
+.classList.remove("hidden");
+
+studentProfile();
+
+}catch(error){
+
+alert(error.message);
+
+}
+
+}
+
+
+/* ==================================================
+   STUDENT PROFILE
+   ================================================== */
+
+window.studentProfile=function(){
+
+const s=currentStudent;
+
+document
+.getElementById("studentContent")
+.innerHTML=`
+
+<h2>👤 Profile Guutuu</h2>
+
+<div class="profile-photo">
+
+${
+s.photo
+?
+`<img class="student-photo"
+src="${escapeHTML(s.photo)}">`
+:
+`<div style="font-size:80px">👤</div>`
+}
+
+<h2>${escapeHTML(s.name||"")}</h2>
+
+</div>
+
+<table>
+
+<tr><th>Student ID</th>
+<td>${escapeHTML(s.id||"")}</td></tr>
+
+<tr><th>Maqaa</th>
+<td>${escapeHTML(s.name||"")}</td></tr>
+
+<tr><th>Saala</th>
+<td>${escapeHTML(s.gender||"")}</td></tr>
+
+<tr><th>Guyyaa Dhalootaa</th>
+<td>${escapeHTML(s.birthDate||"")}</td></tr>
+
+<tr><th>Umurii</th>
+<td>${escapeHTML(s.age||"")}</td></tr>
+
+<tr><th>Mana Barumsaa</th>
+<td>${escapeHTML(s.school||"")}</td></tr>
+
+<tr><th>Kutaa</th>
+<td>${escapeHTML(s.className||"")}</td></tr>
+
+<tr><th>Department</th>
+<td>${escapeHTML(s.department||"")}</td></tr>
+
+<tr><th>Bilbila</th>
+<td>${escapeHTML(s.phone||"")}</td></tr>
+
+<tr><th>Email</th>
+<td>${escapeHTML(s.email||"")}</td></tr>
+
+<tr><th>Teessoo</th>
+<td>${escapeHTML(s.address||"")}</td></tr>
+
+<tr><th>Abbaa</th>
+<td>${escapeHTML(s.father||"")}</td></tr>
+
+<tr><th>Haadha</th>
+<td>${escapeHTML(s.mother||"")}</td></tr>
+
+<tr><th>Bilbila Maatii</th>
+<td>${escapeHTML(s.familyPhone||"")}</td></tr>
+
+<tr><th>Barsiisaa</th>
+<td>${escapeHTML(s.teacher||"")}</td></tr>
+
+<tr><th>Notes</th>
+<td>${escapeHTML(s.notes||"")}</td></tr>
+
+</table>
+
+`;
+
+};
+
+
+/* ==================================================
+   STUDENT RESULTS
+   ================================================== */
+
+window.studentResults=function(){
+
+document
+.getElementById("studentContent")
+.innerHTML=`
+
+<h2>📝 Result</h2>
+
+${renderResults(currentStudent)}
+
+`;
+
+};
+
+
+/* ==================================================
+   STUDENT ATTENDANCE
+   ================================================== */
+
+window.studentAttendance=function(){
+
+document
+.getElementById("studentContent")
+.innerHTML=`
+
+<h2>📅 Attendance</h2>
+
+${renderAttendance(currentStudent)}
+
+`;
+
+};
+
+
+/* ==================================================
+   LOGOUT
+   ================================================== */
+
+window.logout=async function(){
+
+await signOut(auth);
+
+currentStudent=null;
+
+document
+.getElementById("adminPage")
+.classList.add("hidden");
+
+document
+.getElementById("studentPage")
+.classList.add("hidden");
+
+document
+.getElementById("loginPage")
+.classList.remove("hidden");
+
+};
+
+
+/* ==================================================
+   COPY LINK
+   ================================================== */
+
+window.copyLink=async function(encoded){
+
+const link=
+decodeURIComponent(encoded);
+
+try{
+
+await navigator.clipboard.writeText(link);
+
+alert("✅ Linkiin koppii ta'e.");
+
+}catch(e){
+
+prompt(
+"Linkii kana koppii godhi:",
+link
+);
+
+}
+
+};
+
+
+/* ==================================================
+   HELPERS
+   ================================================== */
+
+function get(id){
+
+return document
+.getElementById(id)
+.value
+.trim();
+
+}
+
+
+function set(id,value){
+
+document
+.getElementById(id)
+.value=
+value||"";
+
+}
+
 
 function clearForm(){
 
 [
-"newId",
-"newName",
-"newGender",
-"newAge",
-"newClass",
-"newSchool",
-"newPhone",
-"newPassword"
+"fId",
+"fName",
+"fGender",
+"fBirth",
+"fAge",
+"fSchool",
+"fClass",
+"fDepartment",
+"fPhone",
+"fEmail",
+"fAddress",
+"fFather",
+"fMother",
+"fFamilyPhone",
+"fTeacher",
+"fPhoto",
+"fNotes",
+"fUid"
 
 ].forEach(id=>{
 
-document.getElementById(id).value="";
+document
+.getElementById(id)
+.value="";
 
 });
 
 }
 
 
-/* =========================
-   DISPLAY STUDENTS
-========================= */
+function showFormMessage(text,error){
 
-function displayStudents(list=students){
+const box=
+document.getElementById("formMessage");
 
-let html="";
-
-list.forEach(student=>{
-
-let link =
-location.href.split("#")[0]
-+"#student="+student.id;
-
-html += `
-
-<div class="card">
-
-<h3>👤 ${student.name}</h3>
-
-<p>ID: ${student.id}</p>
-
-<p>Kutaa: ${student.className}</p>
-
-<p>Bilbila: ${student.phone}</p>
-
-<p><b>🔗 Linkii:</b></p>
-
-<div class="student-link">
-${link}
-</div>
-
-<button class="blue"
-onclick="copyLink('${link}')">
-Linkii Copy Godhi
-</button>
-
-<button class="danger"
-onclick="deleteStudent('${student.id}')">
-Barataa Haqi
-</button>
-
-</div>
-
-`;
-
-});
-
-document.getElementById("allStudents")
-.innerHTML = html;
-
-document.getElementById("studentList")
-.innerHTML = html;
+box.innerHTML=
+`<div class="message ${
+error?"error":"success"
+}">${escapeHTML(text)}</div>`;
 
 }
 
 
-/* =========================
-   SEARCH
-========================= */
+function escapeHTML(value){
 
-function searchStudents(){
-
-let value =
-document.getElementById("searchBox")
-.value.toLowerCase();
-
-let result =
-students.filter(s=>
-
-s.name.toLowerCase().includes(value) ||
-
-s.id.toLowerCase().includes(value)
-
-);
-
-displaySearch(result);
+return String(value||"")
+.replaceAll("&","&amp;")
+.replaceAll("<","&lt;")
+.replaceAll(">","&gt;")
+.replaceAll('"',"&quot;")
+.replaceAll("'","&#039;");
 
 }
-
-
-function displaySearch(list){
-
-let html="";
-
-list.forEach(student=>{
-
-html += `
-
-<div class="card">
-
-<h3>${student.name}</h3>
-
-<p>ID: ${student.id}</p>
-
-<p>Kutaa: ${student.className}</p>
-
-</div>
-
-`;
-
-});
-
-document.getElementById(
-"studentList"
-).innerHTML = html;
-
-}
-
-
-/* =========================
-   DELETE
-========================= */
-
-function deleteStudent(id){
-
-if(!confirm(
-"Barataa kana haquu barbaaddaa?"
-)) return;
-
-students =
-students.filter(s=>s.id!==id);
-
-saveData();
-
-updateDashboard();
-
-displayStudents();
-
-}
-
-
-/* =========================
-   COPY LINK
-========================= */
-
-function copyLink(link){
-
-navigator.clipboard.writeText(link);
-
-alert(
-"🔗 Linkiin copy godhameera."
-);
-
-}
-
-
-/* =========================
-   DASHBOARD
-========================= */
-
-function updateDashboard(){
-
-document.getElementById(
-"totalStudents"
-).innerText = students.length;
-
-let exams=0;
-
-students.forEach(s=>{
-exams += s.results.length;
-});
-
-document.getElementById(
-"totalExams"
-).innerText = exams;
-
-
-let attendance=0;
-
-students.forEach(s=>{
-attendance +=
-s.attendance.present +
-s.attendance.absent;
-});
-
-document.getElementById(
-"totalAttendance"
-).innerText = attendance;
-
-}
-
-
-/* =========================
-   LOGOUT
-========================= */
-
-function logout(){
-
-location.hash="";
-
-location.reload();
-
-}
-
-
-/* =========================
-   OPEN LINK
-========================= */
-
-function openStudentFromLink(){
-
-let hash =
-location.hash;
-
-if(!hash.startsWith("#student="))
-return;
-
-let id =
-hash.replace("#student=","");
-
-let student =
-students.find(s=>s.id===id);
-
-if(!student)
-return;
-
-document.getElementById("home")
-.classList.add("hidden");
-
-document.getElementById("studentPage")
-.classList.remove("hidden");
-
-showStudent(student);
-
-}
-
-
-/* =========================
-   START
-========================= */
-
-openStudentFromLink();
 
 </script>
 
