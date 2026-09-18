@@ -1,0 +1,888 @@
+<!DOCTYPE html>
+<html lang="om">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Barataa Hub</title>
+
+<style>
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+  font-family:Arial,sans-serif;
+}
+
+body{
+  background:#f3f6f9;
+  color:#222;
+}
+
+header{
+  background:#075e54;
+  color:white;
+  padding:18px;
+  text-align:center;
+}
+
+.container{
+  max-width:1000px;
+  margin:auto;
+  padding:20px;
+}
+
+.card{
+  background:white;
+  padding:20px;
+  margin:15px 0;
+  border-radius:14px;
+  box-shadow:0 3px 12px rgba(0,0,0,.08);
+}
+
+input,select,button{
+  width:100%;
+  padding:12px;
+  margin:7px 0;
+  border-radius:8px;
+  border:1px solid #ccc;
+}
+
+button{
+  background:#075e54;
+  color:white;
+  border:none;
+  cursor:pointer;
+  font-weight:bold;
+}
+
+button:hover{
+  background:#064c44;
+}
+
+.hidden{
+  display:none;
+}
+
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+  gap:15px;
+}
+
+.stat{
+  background:#e8f5f2;
+  padding:18px;
+  border-radius:12px;
+  text-align:center;
+}
+
+.stat h2{
+  color:#075e54;
+}
+
+.student-link{
+  background:#f5f5f5;
+  padding:10px;
+  border-radius:8px;
+  margin:5px 0;
+  word-break:break-all;
+}
+
+.danger{
+  background:#c62828;
+}
+
+.blue{
+  background:#1565c0;
+}
+
+.logout{
+  background:#444;
+}
+
+table{
+  width:100%;
+  border-collapse:collapse;
+  margin-top:10px;
+}
+
+th,td{
+  border:1px solid #ddd;
+  padding:9px;
+  text-align:left;
+}
+
+th{
+  background:#075e54;
+  color:white;
+}
+
+#message{
+  margin:10px 0;
+  padding:10px;
+  border-radius:8px;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <h1>📚 BARATAA HUB</h1>
+  <p>Sirna Odeeffannoo Barattootaa</p>
+</header>
+
+<div class="container">
+
+<!-- HOME -->
+<section id="home">
+
+<div class="card">
+<h2>👨‍🎓 Barataa</h2>
+<p>Student ID fi password kee galchi.</p>
+
+<input id="studentId" placeholder="Student ID fakkeenya ST001">
+<input id="studentPassword" type="password" placeholder="Password">
+
+<button onclick="studentLogin()">Student Login</button>
+</div>
+
+<div class="card">
+<h2>🔐 Admin</h2>
+
+<input id="adminUser" placeholder="Username">
+<input id="adminPassword" type="password" placeholder="Password">
+
+<button onclick="adminLogin()">Admin Login</button>
+</div>
+
+<div id="message"></div>
+
+</section>
+
+
+<!-- STUDENT PAGE -->
+<section id="studentPage" class="hidden">
+
+<div class="card">
+<h2>👤 Odeeffannoo Barataa</h2>
+
+<div id="studentInfo"></div>
+
+<button class="logout" onclick="logout()">Logout</button>
+</div>
+
+<div class="card">
+<h2>📊 Bu'aa Barataa</h2>
+
+<div id="studentResults"></div>
+</div>
+
+<div class="card">
+<h2>📅 Attendance</h2>
+
+<div id="studentAttendance"></div>
+</div>
+
+</section>
+
+
+<!-- ADMIN PAGE -->
+<section id="adminPage" class="hidden">
+
+<div class="card">
+<h2>📊 Admin Dashboard</h2>
+
+<div class="grid">
+
+<div class="stat">
+<h2 id="totalStudents">0</h2>
+<p>Barattoota</p>
+</div>
+
+<div class="stat">
+<h2 id="totalExams">0</h2>
+<p>Qormaata</p>
+</div>
+
+<div class="stat">
+<h2 id="totalAttendance">0</h2>
+<p>Attendance</p>
+</div>
+
+</div>
+</div>
+
+
+<div class="card">
+
+<h2>➕ Barataa Haaraa Galchi</h2>
+
+<input id="newId" placeholder="Student ID">
+<input id="newName" placeholder="Maqaa Guutuu">
+<input id="newGender" placeholder="Saala">
+<input id="newAge" type="number" placeholder="Umurii">
+<input id="newClass" placeholder="Kutaa">
+<input id="newSchool" placeholder="Mana Barumsaa">
+<input id="newPhone" placeholder="Lakkoofsa Bilbilaa">
+<input id="newPassword" placeholder="Password">
+
+<button onclick="addStudent()">Barataa Galchi</button>
+
+</div>
+
+
+<div class="card">
+
+<h2>🔍 Barataa Barbaadi</h2>
+
+<input id="searchBox"
+       placeholder="Maqaa ykn Student ID..."
+       oninput="searchStudents()">
+
+<div id="studentList"></div>
+
+</div>
+
+
+<div class="card">
+
+<h2>📋 Barattoota Hunda</h2>
+
+<div id="allStudents"></div>
+
+</div>
+
+<button class="logout" onclick="logout()">Logout</button>
+
+</section>
+
+</div>
+
+
+<script>
+
+/* =========================
+   DATA
+========================= */
+
+let students =
+JSON.parse(localStorage.getItem("students")) || [
+
+{
+ id:"ST001",
+ name:"Abdulhamid",
+ gender:"Dhiira",
+ age:20,
+ className:"Grade 10",
+ school:"Mana Barumsaa Fakkeenyaa",
+ phone:"0912345678",
+ password:"1234",
+
+ results:[
+  {subject:"Islamic Studies",score:85},
+  {subject:"Arabic",score:90},
+  {subject:"English",score:78}
+ ],
+
+ attendance:{
+  present:25,
+  absent:2
+ }
+},
+
+{
+ id:"ST002",
+ name:"Ahmed",
+ gender:"Dhiira",
+ age:19,
+ className:"Grade 10",
+ school:"Mana Barumsaa Fakkeenyaa",
+ phone:"0923456789",
+ password:"1234",
+
+ results:[
+  {subject:"Islamic Studies",score:80},
+  {subject:"Arabic",score:75},
+  {subject:"English",score:88}
+ ],
+
+ attendance:{
+  present:23,
+  absent:4
+ }
+}
+
+];
+
+
+/* =========================
+   SAVE
+========================= */
+
+function saveData(){
+
+localStorage.setItem(
+"students",
+JSON.stringify(students)
+);
+
+}
+
+
+/* =========================
+   MESSAGE
+========================= */
+
+function showMessage(text){
+
+document.getElementById("message").innerHTML =
+text;
+
+}
+
+
+/* =========================
+   STUDENT LOGIN
+========================= */
+
+function studentLogin(){
+
+let id =
+document.getElementById("studentId").value.trim();
+
+let password =
+document.getElementById("studentPassword").value;
+
+let student =
+students.find(
+s => s.id.toLowerCase() === id.toLowerCase()
+);
+
+if(!student){
+
+showMessage("❌ Student ID hin argamne.");
+
+return;
+}
+
+if(student.password !== password){
+
+showMessage("❌ Password sirrii miti.");
+
+return;
+}
+
+document.getElementById("home")
+.classList.add("hidden");
+
+document.getElementById("studentPage")
+.classList.remove("hidden");
+
+showStudent(student);
+
+}
+
+
+/* =========================
+   SHOW STUDENT
+========================= */
+
+function showStudent(student){
+
+document.getElementById("studentInfo").innerHTML = `
+
+<p><b>Student ID:</b> ${student.id}</p>
+<p><b>Maqaa:</b> ${student.name}</p>
+<p><b>Saala:</b> ${student.gender}</p>
+<p><b>Umurii:</b> ${student.age}</p>
+<p><b>Kutaa:</b> ${student.className}</p>
+<p><b>Mana Barumsaa:</b> ${student.school}</p>
+<p><b>Bilbila:</b> ${student.phone}</p>
+
+<hr>
+
+<p><b>🔗 Linkii kee:</b></p>
+
+<div class="student-link">
+${location.href.split("#")[0]}#student=${student.id}
+</div>
+
+`;
+
+showResults(student);
+
+showAttendance(student);
+
+}
+
+
+/* =========================
+   RESULTS
+========================= */
+
+function showResults(student){
+
+let html = `
+<table>
+<tr>
+<th>Barnoota</th>
+<th>Qabxii</th>
+</tr>
+`;
+
+let total = 0;
+
+student.results.forEach(r=>{
+
+total += Number(r.score);
+
+html += `
+<tr>
+<td>${r.subject}</td>
+<td>${r.score}</td>
+</tr>
+`;
+
+});
+
+let average =
+student.results.length
+? (total/student.results.length).toFixed(2)
+:0;
+
+html += `
+
+<tr>
+<th>Average</th>
+<th>${average}%</th>
+</tr>
+
+</table>
+`;
+
+document.getElementById("studentResults")
+.innerHTML = html;
+
+}
+
+
+/* =========================
+   ATTENDANCE
+========================= */
+
+function showAttendance(student){
+
+let a = student.attendance;
+
+let total = a.present + a.absent;
+
+let percentage =
+total
+? ((a.present/total)*100).toFixed(1)
+:0;
+
+document.getElementById(
+"studentAttendance"
+).innerHTML = `
+
+<p>✅ Present: ${a.present}</p>
+
+<p>❌ Absent: ${a.absent}</p>
+
+<p>📊 Attendance: ${percentage}%</p>
+
+`;
+
+}
+
+
+/* =========================
+   ADMIN LOGIN
+========================= */
+
+function adminLogin(){
+
+let username =
+document.getElementById("adminUser").value;
+
+let password =
+document.getElementById("adminPassword").value;
+
+
+/* DEFAULT ADMIN */
+
+if(username === "admin" && password === "admin123"){
+
+document.getElementById("home")
+.classList.add("hidden");
+
+document.getElementById("adminPage")
+.classList.remove("hidden");
+
+updateDashboard();
+
+displayStudents();
+
+}else{
+
+showMessage(
+"❌ Username ykn Password sirrii miti."
+);
+
+}
+
+}
+
+
+/* =========================
+   ADD STUDENT
+========================= */
+
+function addStudent(){
+
+let id =
+document.getElementById("newId").value.trim();
+
+let name =
+document.getElementById("newName").value.trim();
+
+let gender =
+document.getElementById("newGender").value;
+
+let age =
+document.getElementById("newAge").value;
+
+let className =
+document.getElementById("newClass").value;
+
+let school =
+document.getElementById("newSchool").value;
+
+let phone =
+document.getElementById("newPhone").value;
+
+let password =
+document.getElementById("newPassword").value;
+
+
+if(!id || !name || !password){
+
+alert(
+"Student ID, Maqaa fi Password dirqama."
+);
+
+return;
+}
+
+
+if(students.some(s=>s.id===id)){
+
+alert("Student ID kun duraan jira.");
+
+return;
+
+}
+
+
+let student = {
+
+id:id,
+name:name,
+gender:gender,
+age:age,
+className:className,
+school:school,
+phone:phone,
+password:password,
+
+results:[],
+
+attendance:{
+present:0,
+absent:0
+}
+
+};
+
+
+students.push(student);
+
+saveData();
+
+alert(
+"✅ Barataan milkaa'inaan galmaa'e."
+);
+
+clearForm();
+
+updateDashboard();
+
+displayStudents();
+
+}
+
+
+/* =========================
+   CLEAR FORM
+========================= */
+
+function clearForm(){
+
+[
+"newId",
+"newName",
+"newGender",
+"newAge",
+"newClass",
+"newSchool",
+"newPhone",
+"newPassword"
+
+].forEach(id=>{
+
+document.getElementById(id).value="";
+
+});
+
+}
+
+
+/* =========================
+   DISPLAY STUDENTS
+========================= */
+
+function displayStudents(list=students){
+
+let html="";
+
+list.forEach(student=>{
+
+let link =
+location.href.split("#")[0]
++"#student="+student.id;
+
+html += `
+
+<div class="card">
+
+<h3>👤 ${student.name}</h3>
+
+<p>ID: ${student.id}</p>
+
+<p>Kutaa: ${student.className}</p>
+
+<p>Bilbila: ${student.phone}</p>
+
+<p><b>🔗 Linkii:</b></p>
+
+<div class="student-link">
+${link}
+</div>
+
+<button class="blue"
+onclick="copyLink('${link}')">
+Linkii Copy Godhi
+</button>
+
+<button class="danger"
+onclick="deleteStudent('${student.id}')">
+Barataa Haqi
+</button>
+
+</div>
+
+`;
+
+});
+
+document.getElementById("allStudents")
+.innerHTML = html;
+
+document.getElementById("studentList")
+.innerHTML = html;
+
+}
+
+
+/* =========================
+   SEARCH
+========================= */
+
+function searchStudents(){
+
+let value =
+document.getElementById("searchBox")
+.value.toLowerCase();
+
+let result =
+students.filter(s=>
+
+s.name.toLowerCase().includes(value) ||
+
+s.id.toLowerCase().includes(value)
+
+);
+
+displaySearch(result);
+
+}
+
+
+function displaySearch(list){
+
+let html="";
+
+list.forEach(student=>{
+
+html += `
+
+<div class="card">
+
+<h3>${student.name}</h3>
+
+<p>ID: ${student.id}</p>
+
+<p>Kutaa: ${student.className}</p>
+
+</div>
+
+`;
+
+});
+
+document.getElementById(
+"studentList"
+).innerHTML = html;
+
+}
+
+
+/* =========================
+   DELETE
+========================= */
+
+function deleteStudent(id){
+
+if(!confirm(
+"Barataa kana haquu barbaaddaa?"
+)) return;
+
+students =
+students.filter(s=>s.id!==id);
+
+saveData();
+
+updateDashboard();
+
+displayStudents();
+
+}
+
+
+/* =========================
+   COPY LINK
+========================= */
+
+function copyLink(link){
+
+navigator.clipboard.writeText(link);
+
+alert(
+"🔗 Linkiin copy godhameera."
+);
+
+}
+
+
+/* =========================
+   DASHBOARD
+========================= */
+
+function updateDashboard(){
+
+document.getElementById(
+"totalStudents"
+).innerText = students.length;
+
+let exams=0;
+
+students.forEach(s=>{
+exams += s.results.length;
+});
+
+document.getElementById(
+"totalExams"
+).innerText = exams;
+
+
+let attendance=0;
+
+students.forEach(s=>{
+attendance +=
+s.attendance.present +
+s.attendance.absent;
+});
+
+document.getElementById(
+"totalAttendance"
+).innerText = attendance;
+
+}
+
+
+/* =========================
+   LOGOUT
+========================= */
+
+function logout(){
+
+location.hash="";
+
+location.reload();
+
+}
+
+
+/* =========================
+   OPEN LINK
+========================= */
+
+function openStudentFromLink(){
+
+let hash =
+location.hash;
+
+if(!hash.startsWith("#student="))
+return;
+
+let id =
+hash.replace("#student=","");
+
+let student =
+students.find(s=>s.id===id);
+
+if(!student)
+return;
+
+document.getElementById("home")
+.classList.add("hidden");
+
+document.getElementById("studentPage")
+.classList.remove("hidden");
+
+showStudent(student);
+
+}
+
+
+/* =========================
+   START
+========================= */
+
+openStudentFromLink();
+
+</script>
+
+</body>
+  </html>
